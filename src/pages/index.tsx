@@ -3,6 +3,7 @@ import Head from "next/head";
 import Image from "next/image";
 import { FormEvent, useState } from "react";
 import { CurrencyCard } from "../components/CurrencyCard";
+import { CurrencyConvertedCard } from "../components/CurrencyConvertedCard";
 import { api } from "../services/api";
 import styles from "../styles/Home.module.scss";
 import { formatCurrency } from "../utils/fomatCurrency";
@@ -25,8 +26,13 @@ interface CurrenciesProps {
 export default function Home(props: CurrenciesProps) {
   const [valueToConvert, setValueToConvert] = useState(null);
   const [convertedValue, setConvertedValue] = useState(null);
+
   const [selectedCurrencyCode, setSelectedCurrencyCode] = useState("");
+  const [selectedCurrencySymbol, setSelectedCurrencySymbol] = useState("");
+  const [selectedCurrencyName, setSelectedCurrencyName] = useState("");
+
   const { currencies, currenciesCodes } = props;
+
   console.log(currenciesCodes);
   const handleConvertCurrency = (event: FormEvent) => {
     event.preventDefault();
@@ -34,8 +40,12 @@ export default function Home(props: CurrenciesProps) {
       (currency) => currency.currencyCode == selectedCurrencyCode
     );
 
-    const value = valueToConvert * selectedCurrency[0].buy;
-    setConvertedValue(value);
+    const convertedValue = valueToConvert * selectedCurrency[0].buy;
+    const currencySymbol = selectedCurrency[0].symbol;
+    const currencyName = selectedCurrency[0].name;
+    setSelectedCurrencySymbol(currencySymbol);
+    setSelectedCurrencyName(currencyName);
+    setConvertedValue(convertedValue);
   };
 
   return (
@@ -44,7 +54,15 @@ export default function Home(props: CurrenciesProps) {
         <title>Dev Currency</title>
       </Head>
       <div className={styles.container}>
-        <div> {formatCurrency(convertedValue)}</div>
+        <div>
+          {" "}
+          <CurrencyConvertedCard
+            convertedValue={convertedValue}
+            symbol={selectedCurrencySymbol}
+            name={selectedCurrencyName}
+          />{" "}
+          {}
+        </div>
         <form onSubmit={handleConvertCurrency} className={styles.form}>
           <div className={styles.inputSelectArea}>
             <input
