@@ -32,8 +32,6 @@ export default function Home(props: CurrenciesProps) {
   const [selectedCurrencyName, setSelectedCurrencyName] = useState("");
 
   const { currencies, currenciesCodes } = props;
-
-  console.log(currenciesCodes);
   const handleConvertCurrency = (event: FormEvent) => {
     event.preventDefault();
     const selectedCurrency = currencies.filter(
