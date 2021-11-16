@@ -5,6 +5,7 @@ import { FormEvent, useState } from "react";
 import { CurrencyCard } from "../components/CurrencyCard";
 import { api } from "../services/api";
 import styles from "../styles/Home.module.scss";
+import { formatCurrency } from "../utils/fomatCurrency";
 
 interface Currency {
   currencyCode: string;
@@ -13,19 +14,27 @@ interface Currency {
   symbol: string;
   variation: number;
 }
+interface CurrenciesCodes {
+  currencyCode: string;
+}
 interface CurrenciesProps {
   currencies: Currency[];
+  currenciesCodes: CurrenciesCodes[];
 }
 
 export default function Home(props: CurrenciesProps) {
   const [valueToConvert, setValueToConvert] = useState(null);
   const [convertedValue, setConvertedValue] = useState(null);
-
-  const { currencies } = props;
-  console.log(currencies);
+  const [selectedCurrencyCode, setSelectedCurrencyCode] = useState("");
+  const { currencies, currenciesCodes } = props;
+  console.log(currenciesCodes);
   const handleConvertCurrency = (event: FormEvent) => {
     event.preventDefault();
-    const value = valueToConvert * props.currencies[0].buy;
+    const selectedCurrency = currencies.filter(
+      (currency) => currency.currencyCode == selectedCurrencyCode
+    );
+
+    const value = valueToConvert * selectedCurrency[0].buy;
     setConvertedValue(value);
   };
 
@@ -34,20 +43,44 @@ export default function Home(props: CurrenciesProps) {
       <Head>
         <title>Dev Currency</title>
       </Head>
-      <div>Hello there!</div>
-      <form onSubmit={handleConvertCurrency}>
-        <input
-          type="number"
-          value={valueToConvert > 0 ? valueToConvert : ""}
-          onChange={(event) => setValueToConvert(Number(event.target.value))}
-        />
-        <button type="submit">Converter</button>
-      </form>
-      {convertedValue}
-      <div className={styles.cardArea}>
-        {currencies.map((currency) => (
-          <CurrencyCard key={currency.currencyCode} currency={currency} />
-        ))}
+      <div className={styles.container}>
+        <div> {formatCurrency(convertedValue)}</div>
+        <form onSubmit={handleConvertCurrency} className={styles.form}>
+          <div className={styles.inputSelectArea}>
+            <input
+              type="number"
+              value={valueToConvert > 0 ? valueToConvert : ""}
+              onChange={(event) =>
+                setValueToConvert(Number(event.target.value))
+              }
+            />
+
+            <select
+              value={selectedCurrencyCode}
+              onChange={({ target }) => setSelectedCurrencyCode(target.value)}
+              style={{ textTransform: "capitalize" }}
+            >
+              <option value="" disabled>
+                Selecione
+              </option>
+              {currenciesCodes.map((option) => {
+                return (
+                  <option key={option.currencyCode} value={option.currencyCode}>
+                    {option}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+          <button type="submit">Converter</button>
+        </form>
+
+        <h2>Moedas disponíveis</h2>
+        <div className={styles.cardArea}>
+          {currencies.map((currency) => (
+            <CurrencyCard key={currency.currencyCode} currency={currency} />
+          ))}
+        </div>
       </div>
     </>
   );
@@ -70,9 +103,14 @@ export const getServerSideProps: GetServerSideProps = async () => {
         variation: currency[1].variation || 0,
       };
     });
+
+  const currenciesCodes = currenciesConvertedData.map(
+    (currency) => currency.currencyCode
+  );
   return {
     props: {
       currencies: currenciesConvertedData,
+      currenciesCodes: currenciesCodes,
     },
   };
 };

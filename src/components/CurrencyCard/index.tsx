@@ -15,10 +15,14 @@ export const CurrencyCard = (props: CurrencyCardProps) => {
   const { buy, symbol, variation, currencyCode, name } = props.currency;
   return (
     <div className={styles.cardContainer}>
-      <div>
+      <div
+        className={`${styles.variation} ${
+          variation >= 0 ? styles.variationUp : styles.variationDown
+        }`}
+      >
         <span>{variation}</span>
       </div>
-      <div>{formatCurrency(buy, currencyCode)}</div>
+      <div className={styles.currencyValue}>{formatCurrency(buy)}</div>
       <div className={styles.cardCurrencyName}>
         {symbol} - {name}
       </div>

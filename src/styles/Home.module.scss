@@ -1,4 +1,50 @@
-.cardArea {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+.container {
+  display: flex;
+  max-width: 45rem;
+  height: 100vh;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+
+  .form {
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    .inputSelectArea {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      input {
+        width: 35%;
+        text-align: center;
+        height: 1.5rem;
+        margin-right: 2%;
+      }
+      select {
+        width: 23%;
+        text-align: center;
+        height: 1.5rem;
+      }
+    }
+    button {
+      width: 60%;
+      margin-top: 0.5rem;
+      border: none;
+      border-radius: 0.25rem;
+      padding: 0.4rem;
+      background-color: #40f540;
+      font-weight: 600;
+      transition: opacity 0.2s ;
+       &:hover{
+        opacity: 0.8;
+      }
+    }
+  }
+
+  .cardArea {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
 }

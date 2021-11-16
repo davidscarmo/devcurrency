@@ -1,14 +1,34 @@
 .cardContainer {
-  border: 1px solid green;
-  width: 10rem;
-  height: 5rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 
-  .cardCurrencyName
-  {
-    font-size: 0.875rem;
+  width: 9rem;
+  height: 5.5rem;
+
+  margin: 1rem;
+
+  border: 1.5px solid #097c09;
+  border-radius: 0.4rem;
+  .variation {
+    width: 40%;
+    text-align: center;
+    font-size: 0.6rem;
+    border-radius: 1rem;
+    color: #000;
+    &.variationUp {
+      background-color: #40f540;
+    }
+    &.variationDown {
+      background-color: #f52d2d;
+      color: #d8d8d8;
+    }
+  }
+  .currencyValue {
+    font-size: 1.3rem;
+  }
+  .cardCurrencyName {
+    font-size: 0.8rem;
   }
 }
