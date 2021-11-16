@@ -2,8 +2,9 @@ import { GetServerSideProps } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import { FormEvent, useState } from "react";
+import { CurrencyCard } from "../components/CurrencyCard";
 import { api } from "../services/api";
-import styles from "../styles/Home.module.css";
+import styles from "../styles/Home.module.scss";
 
 interface Currency {
   currencyCode: string;
@@ -19,6 +20,9 @@ interface CurrenciesProps {
 export default function Home(props: CurrenciesProps) {
   const [valueToConvert, setValueToConvert] = useState(null);
   const [convertedValue, setConvertedValue] = useState(null);
+
+  const { currencies } = props;
+  console.log(currencies);
   const handleConvertCurrency = (event: FormEvent) => {
     event.preventDefault();
     const value = valueToConvert * props.currencies[0].buy;
@@ -34,12 +38,17 @@ export default function Home(props: CurrenciesProps) {
       <form onSubmit={handleConvertCurrency}>
         <input
           type="number"
-          value={valueToConvert > 0 ? valueToConvert : ''}
+          value={valueToConvert > 0 ? valueToConvert : ""}
           onChange={(event) => setValueToConvert(Number(event.target.value))}
         />
         <button type="submit">Converter</button>
       </form>
       {convertedValue}
+      <div className={styles.cardArea}>
+        {currencies.map((currency) => (
+          <CurrencyCard key={currency.currencyCode} currency={currency} />
+        ))}
+      </div>
     </>
   );
 }

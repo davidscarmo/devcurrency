@@ -1,0 +1,14 @@
+.cardContainer {
+  border: 1px solid green;
+  width: 10rem;
+  height: 5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .cardCurrencyName
+  {
+    font-size: 0.875rem;
+  }
+}
