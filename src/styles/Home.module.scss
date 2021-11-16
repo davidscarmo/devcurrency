@@ -1,7 +1,7 @@
 .container {
   display: flex;
   max-width: 45rem;
-  height: 100vh;
+  min-height: 100vh;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -36,8 +36,8 @@
       padding: 0.4rem;
       background-color: #40f540;
       font-weight: 600;
-      transition: opacity 0.2s ;
-       &:hover{
+      transition: opacity 0.2s;
+      &:hover {
         opacity: 0.8;
       }
     }
@@ -46,5 +46,20 @@
   .cardArea {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 540px) {
+  .container {
+    .cardArea {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+}
+@media (max-width: 340px) {
+  .container {
+    .cardArea {
+      grid-template-columns: 1fr;
+    }
   }
 }
